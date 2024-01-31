@@ -12,8 +12,8 @@ public class Main {
 
 	static class Node {
 		List<Node> children;
-		int index;
-		int cnt;
+		int index;	//정점의 번호
+		int cnt;	//연결된 노드의 개수
 
 		public Node(int value) {
 			children = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Main {
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int[] cost = new int[N + 1];
+		int[] cost = new int[N + 1];	//비용 정보
 
 		for (int i = 1; i < N + 1; i++) {
 			cost[i] = Integer.parseInt(st.nextToken());
@@ -52,7 +52,7 @@ public class Main {
 			tree[b].cnt += 1;
 		}
 
-		int[][] dp = new int[N + 1][2]; // 0: 해당 마을이 우수 x / 1: 해당 마을이 우수
+		int[][] dp = new int[N + 1][2]; // 0: 해당 마을이 우수 마을이 아닐 때 / 1: 해당 마을이 우수 마을일 때
 		Deque<Integer> deque = findLeap();
 
 		while (!deque.isEmpty()) {
@@ -61,18 +61,16 @@ public class Main {
 				dp[curr][1] += cost[curr];
 				System.out.println(Math.max(dp[curr][0], dp[curr][1]));
 			}
-			if (tree[curr].cnt == 1) {
+			if (tree[curr].cnt == 1) { //리프노드일때만 dp 진행
 				dp[curr][1] += cost[curr];
 				Node node = tree[curr].children.get(0);
 				dp[node.index][0] += Math.max(dp[curr][0], dp[curr][1]); // 본인이 우수 마을이 아닐 때는 자식의 우수마을 여부는 상관없음
 				dp[node.index][1] += dp[curr][0]; // 본인이 우수마을일때는 자식이 모두 우수마을이 아니어야한다.
 
-				node.children.remove(tree[curr]);
-				if (--node.cnt == 1) {
+				node.children.remove(tree[curr]); //리프노드는 탐색을 마치면 연결 끊어주기
+				if (--node.cnt == 1) { //연결 끊었을 때 리프노드면 deque에 넣어줌
 					deque.add(node.index);
 				}
-			} else if (tree[curr].cnt > 1) {
-				deque.addLast(curr);
 			}
 		}
 
