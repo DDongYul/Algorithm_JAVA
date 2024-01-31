@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		int[] arr = new int[N];
@@ -20,11 +21,13 @@ public class Main {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			if(a==1) {
-				System.out.println(arr[b-1]);				
+				sb.append(arr[b-1]).append("\n");			
 			}
 			else {
-				System.out.println(arr[b-1] - arr[a-2]);	
+				int answer = arr[b-1] - arr[a-2];
+				sb.append(answer).append("\n");		
 			}
 		}
+		System.out.println(sb);
 	}
 }
