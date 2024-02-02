@@ -6,7 +6,7 @@ public class Main {
 	
 	static int N;
 	static StringBuilder sb = new StringBuilder();
-	static int[] addNum = {1,3,5,7,9};
+	static int[] addNum = {1,3,7,9};
 	
 	static void sol(int depth) {
 		if(depth == N) {
