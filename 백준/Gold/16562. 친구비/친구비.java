@@ -8,54 +8,39 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * 그룹 찾고 그룹에서 가장 비용 적은 사람과 친구하기
+ * 비용이 적은 친구를 부모로 두며 union find
  */
 
 public class Main {
 
-    static class Node {
+    static int find(int x) {
+        while (x != parent[x]) {
+            x = parent[x];
+        }
+        return x;
+    }
 
-        List<Node> children;
-        int index;
-
-        public Node(int index) {
-            this.index = index;
-            children = new ArrayList<>();
+    static void union(int a, int b) {
+        if (cost[a] > cost[b]) {
+            parent[a] = b;
+        } else {
+            parent[b] = a;
         }
     }
 
-    static int N, M, K;
+    static int[] parent;
     static int[] cost;
-    static Node[] nodes;
-    static boolean visited[];
-
-    private static int BFS(int start) {
-        Deque<Integer> deque = new ArrayDeque<>();
-        int min = 10_000;
-        deque.addLast(start);
-        while (!deque.isEmpty()) {
-            int curr = deque.removeFirst();
-            if (!visited[curr]) {
-                visited[curr] = true;
-                min = Math.min(min, cost[curr]);
-                for (Node node : nodes[curr].children) {
-                    deque.addLast(node.index);
-                }
-            }
-        }
-        return min;
-    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        nodes = new Node[N + 1];
-        for (int i = 1; i <= N; i++) {
-            nodes[i] = new Node(i);
+        parent = new int[N + 1];
+        for (int i = 0; i <= N; i++) {
+            parent[i] = i;
         }
 
         cost = new int[N + 1];
@@ -68,17 +53,16 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            nodes[a].children.add(nodes[b]);
-            nodes[b].children.add(nodes[a]);
+            union(find(a),find(b));
         }
 
         int sum = 0;
-        visited = new boolean[N + 1];
-        for (int i = 1; i <= N; i++) {
-            if (!visited[i]) {
-                sum += BFS(i);
+        for(int i = 1; i<=N; i++){
+            if(parent[i] == i){
+                sum+=cost[i];
             }
         }
+
         if (K >= sum) {
             System.out.println(sum);
         } else {
