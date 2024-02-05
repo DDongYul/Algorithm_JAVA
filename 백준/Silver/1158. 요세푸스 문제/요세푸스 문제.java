@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,7 +13,7 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
-		LinkedList<Integer> lst = new LinkedList<>();
+		List<Integer> lst = new ArrayList<Integer>();
 		for (int i = 1; i <= N; i++) {
 			lst.add(i);
 		}
