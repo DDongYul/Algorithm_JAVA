@@ -25,10 +25,7 @@ public class Solution {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		Stack<Character> left = new Stack<>();
-		Stack<Character> right = new Stack<>();
-		char[] leftP = { '{', '[', '(', '<' };
-		char[] rightP = { '}', ']', ')', '>' };
+		Stack<Character> stack = new Stack<>();
 
 		for (int t = 0; t < 10; t++) {
 			sb.append("#").append(t + 1).append(" ");
@@ -48,15 +45,15 @@ public class Solution {
 				}
 				//왼쪽괄호면
 				if (flag) {
-					left.add(curr);
+					stack.add(curr);
 				}
 				//오른쪽 괄호면
 				else {
-					if (left.isEmpty()) {
+					if (stack.isEmpty()) {
 						valid = false;
 						break;
 					}
-					char r = left.pop();
+					char r = stack.pop();
 					if (!(getInt(curr) == getInt(r))) {
 						valid = false;
 						break;
