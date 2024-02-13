@@ -33,19 +33,21 @@ public class Main {
             Edge curr = deque.removeFirst();
             int s = curr.e;
             int cost = curr.cost;
-            visited[s] = cost;
             if(s == E){
                 break;
             }
             for (Integer i : edge[s]) {
                 if (visited[i] == 0 && i!=start) {
+                    visited[i] = cost+1;
                     deque.add(new Edge(i, cost + 1));
                 }
             }
             if (s > 1 && visited[s - 1] == 0 && s-1!=start) {
+                visited[s-1] = cost+1;
                 deque.add(new Edge(s - 1, cost + 1));
             }
             if (s < N && visited[s + 1] == 0&& s+1!=start) {
+                visited[s+1] = cost+1;
                 deque.add(new Edge(s + 1, cost + 1));
             }
         }
