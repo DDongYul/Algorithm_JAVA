@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -28,7 +29,7 @@ public class Main {
             cost[b]+=1;
         }
 
-        List<Integer> lst = new ArrayList<>();
+        Deque<Integer> lst = new ArrayDeque<>();
 
         for (int i = 1; i <= N; i++) {
             if (cost[i] == 0) {
@@ -36,7 +37,7 @@ public class Main {
             }
         }
         while (!lst.isEmpty()){
-            int curr = lst.remove(0);
+            int curr = lst.removeFirst();
             sb.append(curr + " ");
             for (Integer child : children[curr]) {
                 cost[child]-=1;
