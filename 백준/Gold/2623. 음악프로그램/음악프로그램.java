@@ -9,6 +9,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+    /**
+     * 위상정렬 사용
+     * 줄 세우기의 관계를 나타내는 List 배열인 edges
+     * 나보다 앞에 있어야 하는 사람의 수를 나타내는 countLink
+     * edges의 각 index에 담기는 값은 내 뒤에 있는 사람을 담아준다.
+     * countLink가 0인 사람부터 앞에 세워주고, 연결되어 있는 사람의 countLink값을 줄여준다. 이 때 0이되면 queue에 넣어줌
+     * 줄을 세울 수 없는 경우는 중간에 countLink값이 0이 되는 경우가 없는 경우이다. 개수를 세어주어 예외처리
+     */
 public class Main {
 
     public static void main(String[] args) throws IOException {
