@@ -1,60 +1,50 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int[] arr;
-	static int N;
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N = Integer.parseInt(br.readLine());
-		arr = new int[N + 1];
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for (int i = 1; i < N + 1; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		arr[0] = -1;
-		int n = Integer.parseInt(br.readLine());
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			if (st.nextToken().equals("1")) {
-				boy(Integer.parseInt(st.nextToken()));
-			} else{
-				girl(Integer.parseInt(st.nextToken()));
-			}
-		}
-		StringBuilder sb = new StringBuilder();
-		for(int i = 1; i<N+1; i++) {
-			sb.append(arr[i]).append(" ");
-			if(i%20 == 0) {
-				sb.append("\n");
-			}
-		}
-		System.out.println(sb);
-	}
-
-	private static void girl(int s) {
-		arr[s] = 1 - arr[s];
-		int p1 = s - 1;
-		int p2 = s + 1;
-		while (p1 >= 1 && p2 <= N) {
-			if (arr[p1] != arr[p2]) {
-				break;
-			}
-			arr[p1] = 1 - arr[p1];
-			arr[p2] = 1 - arr[p2];
-			p1 -= 1;
-			p2 += 1;
-		}
-	}
-
-	private static void boy(int s) {
-		for (int i = s; i < N + 1; i += s) {
-			arr[i] = 1 - arr[i];
-		}
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N+1];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 1; i <= N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        int M = Integer.parseInt(br.readLine());
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int gender = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            if(gender==1){
+                int cnt = num;
+                while (cnt <=N) {
+                    arr[cnt] = Math.abs(arr[cnt]-1);
+                    cnt+=num;
+                }
+            }
+            else if(gender==2){
+                arr[num] = Math.abs(arr[num]-1);
+                int front = num-1;
+                int back = num+1;
+                while (front>=1 && back<=N && arr[front]==arr[back]){
+                    arr[front] = Math.abs(arr[front]-1);
+                    arr[back] = Math.abs(arr[back]-1);
+                    front-=1;
+                    back+=1;
+                }
+            }
+        }
+        for (int i = 1; i <= N; i++) {
+            sb.append(arr[i]).append(" ");
+            if(i%20==0){
+                sb.append("\n");
+            }
+        }
+        System.out.println(sb);
+    }
 }
