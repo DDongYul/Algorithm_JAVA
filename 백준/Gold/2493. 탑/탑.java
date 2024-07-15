@@ -1,46 +1,48 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
+//863574
+//42137 -> 4넣고 7들어옴 4뺌 -> 7 넣고 5들어옴 -> 6들어옴 5 빠짐 6넣음
 public class Main {
-	
-	static class Top{
-		int index;
-		int value;
-		
-		public Top(int index, int value) {
-			this.index = index;
-			this.value = value;
-		}
-		
-	}
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		int N = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int[] arr = new int[N+1];
-		Top[] tops = new Top[N+1];
-		for(int i = 1; i<=N; i++) {
-			tops[i] = new Top(i,Integer.parseInt(st.nextToken()));
-		}
-		Stack<Top> stack = new Stack<>();
-		stack.push(tops[N]);
-		for(int i = N-1; i>=1; i--) {
-			while(!stack.isEmpty() && stack.peek().value<=tops[i].value) {
-					Top curr = stack.pop();
-					arr[curr.index] = i;
-			}	
-		stack.push(tops[i]);
-			
-		}
-		for(int i = 1; i<=N; i++) {
-			sb.append(arr[i]).append(" ");
-		}
-		System.out.println(sb);
-		
-	}
+
+    private static class Top{
+        int index;
+        int value;
+
+        public Top(int index, int value) {
+            this.index = index;
+            this.value = value;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
+
+        int N = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        Top[] top = new Top[N];
+        int[] answer = new int[N];
+        for (int i = 0; i < N; i++) {
+            top[i] = new Top(i, Integer.parseInt(st.nextToken()));
+        }
+        Deque<Top> deque = new ArrayDeque<>();
+        for (int i = N-1; i >=0; i--) {
+            while(!deque.isEmpty() && deque.peek().value<top[i].value){
+                Top t = deque.pollFirst();
+                answer[t.index] = top[i].index+1;
+            }
+            deque.addFirst(top[i]);
+        }
+        for (int i = 0; i < N; i++) {
+            sb.append(answer[i]).append(" ");
+        }
+        System.out.println(sb);
+    }
+
 }
