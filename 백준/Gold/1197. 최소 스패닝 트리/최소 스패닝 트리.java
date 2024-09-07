@@ -1,82 +1,64 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    /**
-     * Kruskal 알고리즘
-     * 간선을 가중치가 작은 순으로 정렬
-     * 각 단계에서 최소인 가중치 선택
-     * 이 때 unionfind를 통해 이미 같은 집단인지 확인 (싸이클 확인)
-     */
-
-    static class weight {
-
-        int s;
-        int e;
+    static class Node implements Comparable<Node>{
+        int d;
         int cost;
 
-        public weight(int s, int e, int cost) {
-            this.s = s;
-            this.e = e;
+        public Node(int d, int cost) {
+            this.d = d;
             this.cost = cost;
         }
-    }
 
-    static int v, e;
-    static int[] parent;
-    static weight[] weights;
-
-    static int find(int x) {
-        while (!(parent[x] == x)) {
-            x = parent[x];
-        }
-        return x;
-    }
-
-    static void union(int a, int b) {
-        a = find(a);
-        b = find(b);
-        if (a > b) {
-            parent[a] = b;
-        } else {
-            parent[b] = a;
+        @Override
+        public int compareTo(Node o) {
+            return cost - o.cost;
         }
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        v = Integer.parseInt(st.nextToken());
-        e = Integer.parseInt(st.nextToken());
-        parent = new int[v + 1];
-        weights = new weight[e];
-
-        for (int i = 1; i <= v; i++) {
-            parent[i] = i;
+        int V = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+        List<Node>[] graph = new List[V+1];
+        for (int i = 1; i <=V; i++) {
+            graph[i] = new ArrayList<>();
         }
-
-        for (int i = 0; i < e; i++) {
+        PriorityQueue<Node> pq = new PriorityQueue();
+        boolean[] visited = new boolean[V+1];
+        for (int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine());
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            weights[i] = new weight(s, e, c);
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int d = Integer.parseInt(st.nextToken());
+            graph[a].add(new Node(b,d));
+            graph[b].add(new Node(a,d));
         }
-        int sum = 0;
-        Arrays.sort(weights, (o1, o2) -> o1.cost - o2.cost);
-
-        for (weight weight : weights) {
-            if (!(find(weight.s) == find(weight.e))) {
-                sum += weight.cost;
-                union(weight.s, weight.e);
+        int answer = 0;
+        visited[1] = true;
+        for (Node node : graph[1]){
+            pq.add(node);
+        }
+        while (!pq.isEmpty()){
+            Node node = pq.poll();
+            if(visited[node.d]){
+                continue;
+            }
+            answer+=node.cost;
+            visited[node.d]=true;
+            for (Node n : graph[node.d]){
+                pq.add(n);
             }
         }
-        System.out.println(sum);
-
+        System.out.println(answer);
     }
+
 }
