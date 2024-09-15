@@ -17,7 +17,7 @@ public class Main {
         int need = curr+n;
         int cnt = c-1;
         int idx = 1;
-        while (idx<arr.length){
+        while (idx<arr.length && cnt>0){
             int num = arr[idx];
             if(num<need){
                 idx++;
@@ -27,7 +27,7 @@ public class Main {
             cnt-=1;
             idx++;
         }
-        if(cnt<=0){
+        if(cnt==0){
             return true;
         }return false;
     }
