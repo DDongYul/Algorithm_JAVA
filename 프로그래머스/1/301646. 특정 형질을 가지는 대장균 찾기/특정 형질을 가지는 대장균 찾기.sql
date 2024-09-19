@@ -1,0 +1,4 @@
+-- 코드를 작성해주세요
+SELECT COUNT(*) as COUNT
+FROM ECOLI_DATA E
+WHERE E.GENOTYPE & 2 = 0 and E.GENOTYPE & 5 >= 1;
