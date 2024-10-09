@@ -14,25 +14,22 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
-        int cnt = N-K;
-
         String str = br.readLine();
         Stack<Character> stack = new Stack<>();
         for (int i = 0; i < N; i++) {
-            char curr = str.charAt(i);
-            while(!stack.isEmpty() && K>0 && stack.peek()<curr){
+            char c = str.charAt(i);
+            while (!stack.isEmpty() && K>0 && stack.peek()<c){
                 stack.pop();
                 K--;
             }
-            stack.push(curr);
+            stack.push(c);
         }
-
-        while (stack.size()>cnt){
+        while (K>0){
             stack.pop();
+            K--;
         }
-
-        for (Character character : stack) {
-            sb.append(character);
+        for(char c : stack){
+            sb.append(c);
         }
         System.out.println(sb);
     }
